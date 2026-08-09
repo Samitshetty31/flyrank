@@ -1,0 +1,43 @@
+---
+description: Core project conventions for flyrank
+alwaysApply: true
+---
+
+# flyrank
+
+Early-stage Node.js project. Match existing patterns as the codebase grows.
+
+## Code changes
+
+- Keep diffs minimal — solve the requested problem only; avoid drive-by refactors.
+- Read surrounding code before editing; reuse existing abstractions instead of duplicating logic.
+- Prefer simple, direct implementations over premature abstraction.
+- Add comments only for non-obvious business logic or tricky technical details.
+- Add tests only when requested or when they cover meaningful behavior.
+
+## Node / TypeScript
+
+- Use ESM unless the repo already uses CommonJS.
+- Prefer `async/await` over raw promise chains.
+- Validate external input at boundaries (API routes, CLI args, env parsing).
+- Never commit secrets — use `.env` locally; document required vars in README.
+
+```typescript
+// ❌ BAD — silent failure
+try {
+  await fetchData();
+} catch (e) {}
+
+// ✅ GOOD — log and rethrow with context
+try {
+  await fetchData();
+} catch (e) {
+  console.error('Failed to fetch data', e);
+  throw e;
+}
+```
+
+## Git
+
+- Do not create commits or push unless explicitly asked.
+- Never commit `.env`, credentials, or build artifacts (`dist/`, `node_modules/`).
